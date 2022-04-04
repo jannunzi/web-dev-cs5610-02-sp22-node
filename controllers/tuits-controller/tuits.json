@@ -1,0 +1,14 @@
+[
+  {
+    "tuit": "SpaceX rocks",
+    "_id": "123"
+  },
+  {
+    "tuit": "NASA rocks",
+    "_id": "234"
+  },
+  {
+    "tuit": "Blue Origin rocks",
+    "_id": "345"
+  }
+]
