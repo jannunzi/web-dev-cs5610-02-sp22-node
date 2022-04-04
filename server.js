@@ -1,21 +1,16 @@
 const mongoose = require('mongoose');
-const tuitsDao = require('./database/tuits-dao');
+const tuitsDao = require('./database/tuits/tuits-dao');
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
-mongoose.connect('mongodb://localhost:27017/cs5610-sp22');
+mongoose.connect('mongodb://localhost:27017/webdev');
 app.use(cors());
 app.use(express.json());
 app.use(session({
   secret: 'SECRETO',
   cookie: {secure: false}
 }));
-
-
-
-
-
 // const promise = tuitsModel.find();
 // promise.then((tuits) => {
 //   console.log(tuits);

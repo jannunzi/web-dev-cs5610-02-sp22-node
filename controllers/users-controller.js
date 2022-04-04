@@ -1,43 +1,62 @@
-const users = [];
+const userDao = require('../database/users/users-dao')
 
-const signup = (req, res) => {
-  const credentials = req.body;
-  users.push(credentials);
-  req.session['profile'] = credentials;
-  res.sendStatus(200);
+const findAllUsers = async (req, res) => {
+  const users = await userDao.findAllUsers()
+  res.json(users)
 }
-
-const login = (req, res) => {
-  const credentials = req.body;
-  const profile = users.find(user =>
-    user.username === credentials.username &&
-    user.password === credentials.password
-  );
-  if (profile) {
-    req.session['profile'] = profile;
-    res.sendStatus(200);
-    return;
+const findUserById = async (req, res) => {
+  const userId = req.params['id']
+  const user = await userDao.findUserById(userId)
+  if(user) {
+    res.json(user)
+  } else {
+    res.sendStatus(404)
   }
-  res.sendStatus(403);
 }
-
-const profile = (req, res) => {
-  res.json(req.session['profile']);
+const findUserByEmail = async (req, res) => {
+  const email = req.params.email
+  const user = await userDao.findUserByEmail(email)
+  if(user) {
+    res.json(user)
+  } else {
+    res.sendStatus(404)
+  }
 }
-
-const logout = (req, res) => {
-  req.session.destroy();
-  res.sendStatus(200);
+const findUserByCredentials = async (req, res) => {
+  const credentials = req.body
+  const {email, password} = credentials
+  const user = await userDao.findUserByCredentials(
+    email, password
+  )
+  if(user) {
+    res.sendStatus(200)
+  } else {
+    res.sendStatus(403)
+  }
 }
-
-const findUsers = (req, res) => {
-  res.json(users);
+const createUser = async (req, res) => {
+  const user = req.body
+  const insertedUser = await userDao.createUser(user)
+  res.json(insertedUser)
+}
+const updateUser = async (req, res) => {
+  const user = req.body
+  const userId = req.params['id']
+  const status = await userDao.updateUser(userId, user)
+  res.json(status)
+}
+const deleteUser = async (req, res) => {
+  const userId = req.params['id']
+  const status = await userDao.deleteUser(userId)
+  res.json(status)
 }
 
 module.exports = (app) => {
-  app.post('/api/signup', signup);
-  app.post('/api/profile', profile);
-  app.post('/api/login', login);
-  app.post('/api/logout', logout);
-  app.get('/api/users', findUsers);
+  app.get('/api/users', findAllUsers);
+  app.get('/api/users/:id', findUserById);
+  app.get('/api/users/email/:email', findUserByEmail);
+  app.post('/api/users/credentials', findUserByCredentials);
+  app.post('/api/users', createUser);
+  app.put('/api/users/:id', updateUser);
+  app.delete('/api/users/:id', deleteUser);
 }
