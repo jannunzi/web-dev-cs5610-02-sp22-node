@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const tuitsDao = require('./database/tuits-dao');
+const tuitsDao = require('./database/tuits/tuits-dao');
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');

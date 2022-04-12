@@ -1,6 +1,6 @@
 let tuits = require('./tuits.json');
 
-const tuitsDao = require('../../database/tuits-dao');
+const tuitsDao = require('../../database/tuits/tuits-dao');
 
 const findAllTuits = async (req, res) => {
   const tuits = await tuitsDao.findAllTuits();
