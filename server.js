@@ -4,33 +4,23 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
-mongoose.connect('mongodb://localhost:27017/cs5610-sp22');
+mongoose.connect('mongodb+srv://giuseppi:supersecretpassword@cluster0.m8jeh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
+// mongoose.connect('mongodb://localhost:27017/cs5610-sp22');
 app.use(cors());
-app.use(express.json());
 app.use(session({
   secret: 'SECRETO',
   cookie: {secure: false}
 }));
+app.use(express.json());
 
-
-
-
-
-// const promise = tuitsModel.find();
-// promise.then((tuits) => {
-//   console.log(tuits);
-// })
-
-
-// const examples = require("./examples-controller")
-// examples(app);
 require("./controllers/examples-controller")(app);
 require("./controllers/users-controller")(app);
 require("./controllers/session-controller")(app);
 require("./controllers/tuits-controller/index")(app);
+require("./movies/movies-controller")(app);
 
-// app.get('/hello', (request, response) => {
-//   response.send("Hello World");
-// });
+app.get('/', (request, response) => {
+  response.send("Welcome to WebDev");
+});
 
-app.listen(4000);
+app.listen(process.env.PORT || 4000);
