@@ -6,7 +6,10 @@ const cors = require('cors');
 const app = express();
 mongoose.connect('mongodb+srv://giuseppi:supersecretpassword@cluster0.m8jeh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 // mongoose.connect('mongodb://localhost:27017/cs5610-sp22');
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:3000'
+}));
 app.use(session({
   secret: 'SECRETO',
   cookie: {secure: false}
@@ -18,6 +21,7 @@ require("./controllers/users-controller")(app);
 require("./controllers/session-controller")(app);
 require("./controllers/tuits-controller/index")(app);
 require("./movies/movies-controller")(app);
+require("./controllers/auth-controller")(app);
 
 app.get('/', (request, response) => {
   response.send("Welcome to WebDev");

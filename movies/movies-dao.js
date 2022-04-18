@@ -3,7 +3,7 @@ const moviesModel = require('./movies-model')
 const likeMovie = async (movie) => {
   let actualMovie = {}
   // try {
-    const existingMovie = await moviesModel.findOne({imdbID: movie.imdbID})
+  const existingMovie = await moviesModel.findOne({imdbID: movie.imdbID})
   // } catch (e) {
   //   console.log(e)
   // }
